@@ -1,7 +1,7 @@
 def analyst_task_description_tmplt(current_date: str, results) -> str:
     return f"""
-        Generate a structured list of 5 of the most important updates from the research results provided.
-        Include working links to the original source material of each article you identify.
+        Generate a structured list of 7 of the most important updates from the research results provided.
+        Include working links to the original source material of each update you identify.
         Verify that the source links are working.
         The current date is { current_date }.
 
@@ -20,7 +20,7 @@ def analyst_task_description_tmplt(current_date: str, results) -> str:
         - No duplicate coverage of same news
         - No opinion pieces or editorials
         - No paywalled content
-        - 5 results in the final list
+        - 7 results in the final list
 
         # Research Results
 

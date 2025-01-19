@@ -5,7 +5,7 @@ def research_task_description_tmplt(link: str, date) -> str:
             Make sure all the information is accurate.
             
             Requirements:
-            - Include working links to the original source material of each article you identify and report
+            - Include working links to the original source material you identify and report
             - Make sure that the source links are present in the scraped text via the link
             - Do not hallucinate or fabricate information or sources
             - Focus on reliable news sources

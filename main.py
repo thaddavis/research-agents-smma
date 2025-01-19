@@ -86,12 +86,54 @@ def main():
         output_pydantic=NewsResults,
         agent=researcher,
     )
+    task_research_mit_dot_edu = Task(
+        description=research_task_description_tmplt("https://news.mit.edu/topic/artificial-intelligence2", current_date),
+        expected_output=tasks_yaml['research_task']["expected_output"],
+        output_pydantic=NewsResults,
+        agent=researcher
+    )
+    task_research_the_guardian = Task(
+        description=research_task_description_tmplt("https://www.theguardian.com/technology/artificialintelligenceai", current_date),
+        expected_output=tasks_yaml['research_task']["expected_output"],
+        output_pydantic=NewsResults,
+        agent=researcher
+    )
+    task_research_forbes = Task(
+        description=research_task_description_tmplt("https://www.forbes.com/topics/artificial-intelligence/", current_date),
+        expected_output=tasks_yaml['research_task']["expected_output"],
+        output_pydantic=NewsResults,
+        agent=researcher
+    )
+    task_research_usnews = Task(
+        description=research_task_description_tmplt("https://www.usnews.com/topics/subjects/artificial-intelligence", current_date),
+        expected_output=tasks_yaml['research_task']["expected_output"],
+        output_pydantic=NewsResults,
+        agent=researcher
+    )
+    task_research_huggingface_blog = Task(
+        description=research_task_description_tmplt("https://huggingface.co/blog", current_date),
+        expected_output=tasks_yaml['research_task']["expected_output"],
+        output_pydantic=NewsResults,
+        agent=researcher
+    )
+    task_research_medium_dot_com = Task(
+        description=research_task_description_tmplt("https://medium.com/tag/artificial-intelligence", current_date),
+        expected_output=tasks_yaml['research_task']["expected_output"],
+        output_pydantic=NewsResults,
+        agent=researcher
+    )
 
     # List of research tasks to be performed in parallel
     tasks = [
         task_research_ainews,
         task_research_techcrunch,
-        task_research_nbcnews
+        task_research_nbcnews,
+        task_research_mit_dot_edu,
+        task_research_the_guardian,
+        task_research_forbes,
+        task_research_usnews,
+        task_research_huggingface_blog,
+        task_research_medium_dot_com
     ]
 
     research_results = [] # Execute tasks in parallel
