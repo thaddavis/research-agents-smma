@@ -40,7 +40,7 @@ jobs:
         run: |
           gcloud run jobs deploy ${{ env.JOB_NAME }} \
           --image ${{ env.IMAGE_URL }}:${{ github.sha }} \
-          --set-secrets "OPENAI_API_KEY=projects/$PROJECT_NUMBER/secrets/SUPERCHARGED_NEWS_OPENAI_API_KEY:latest,AWS_SECRET_KEY=projects/$PROJECT_NUMBER/secrets/SUPERCHARGED_NEWS_AWS_SECRET_KEY:latest,AWS_ACCESS_KEY_ID=projects/$PROJECT_NUMBER/secrets/SUPERCHARGED_NEWS_AWS_ACCESS_KEY_ID:latest,AWS_REGION=projects/$PROJECT_NUMBER/secrets/SUPERCHARGED_NEWS_AWS_REGION:latest,AGENTOPS_API_KEY=projects/830723611668/secrets/SUPERCHARGED_NEWS_AGENTOPS_API_KEY:latest,MAILING_LIST=projects/830723611668/secrets/SUPERCHARGED_NEWS_MAILING_LIST:latest" \
+          --set-secrets "OPENAI_API_KEY=projects/830723611668/secrets/RESEARCH_AGENTS_OPENAI_API_KEY:latest,AGENTOPS_API_KEY=projects/830723611668/secrets/RESEARCH_AGENTS_AGENTOPS_API_KEY:latest,MAILING_LIST=projects/830723611668/secrets/RESEARCH_AGENTS_MAILING_LIST:latest,AWS_REGION=projects/830723611668/secrets/RESEARCH_AGENTS_AWS_REGION:latest,AWS_ACCESS_KEY_ID=projects/830723611668/secrets/RESEARCH_AGENTS_AWS_ACCESS_KEY_ID:latest,AWS_SECRET_KEY=projects/830723611668/secrets/RESEARCH_AGENTS_AWS_SECRET_KEY:latest" \
           --memory 1Gi \
           --max-retries 5 \
           --region us-east1 \
