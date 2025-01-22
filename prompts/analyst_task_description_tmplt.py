@@ -1,10 +1,7 @@
-def analyst_task_description_tmplt(current_date: str, results) -> str:
+def analyst_task_description_tmplt(current_date: str, people) -> str:
     return f"""
-        Generate a structured list of 7 of the most important updates from the research results provided.
-        Include working links to the original source material of each update you identify.
-        Verify that the source links are working.
-        The current date is { current_date }.
-
+        Generate a short personalized message for the crowd of attendees of the inaugural A.I. tinkerers event.
+        
         # Table of Contents
 
         - Requirements
@@ -12,19 +9,12 @@ def analyst_task_description_tmplt(current_date: str, results) -> str:
 
         # Requirements
         
-        - All the reference links should be working links
-        - Verify that the source links are working
-        - Include working links to the original source material of each list item you provide
-        - Focus on reliable news sources
-        - Report all news in English
-        - No duplicate coverage of same news
-        - No opinion pieces or editorials
-        - No paywalled content
-        - 7 results in the final list
-
-        # Research Results
+        - Make the messsage short
+        - Make the message general to be sent to all the attendees
+        
+        # Attendees
 
         {
-            "\n".join([f"- {result}" for result in results])
+            "\n".join([f"- {person}" for person in people])
         }
     """

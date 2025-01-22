@@ -2,14 +2,15 @@ import json
 import os
 from datetime import datetime
 from helpers.execute_task_async import execute_task_async
-from helpers.format_news_for_email import format_news_for_email
+from helpers.format_news_for_email import format_for_email
 from helpers.is_valid_email import is_valid_email
 from helpers.send_email_ses import send_email_ses
 from crewai import Agent, Task, LLM
 import yaml
 from prompts.analyst_task_description_tmplt import analyst_task_description_tmplt
 from prompts.research_task_description_tmplt import research_task_description_tmplt
-from pydantic_types.news_results import NewsResults
+from pydantic_types.results import Attendees
+from pydantic_types.final_output import FinalOutput
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dotenv import load_dotenv
 
@@ -68,75 +69,67 @@ def main():
     )
 
     # -v-v- DEFINE TASKS -v-v-
-    task_research_ainews = Task(
-        description=research_task_description_tmplt("https://www.artificialintelligence-news.com/", current_date),
+    task_research_attendees = Task(
+        description=research_task_description_tmplt("https://miami.aitinkerers.org/connect/mu_V6yRbCgknEk", current_date),
         expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
+        output_pydantic=Attendees,
         agent=researcher,
     )
-    task_research_techcrunch = Task(
-        description=research_task_description_tmplt("https://techcrunch.com/category/artificial-intelligence/", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher,
-    )
-    task_research_nbcnews = Task(
-        description=research_task_description_tmplt("https://www.nbcnews.com/artificial-intelligence", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher,
-    )
-    task_research_mit_dot_edu = Task(
-        description=research_task_description_tmplt("https://news.mit.edu/topic/artificial-intelligence2", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher
-    )
-    task_research_the_guardian = Task(
-        description=research_task_description_tmplt("https://www.theguardian.com/technology/artificialintelligenceai", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher
-    )
-    task_research_forbes = Task(
-        description=research_task_description_tmplt("https://www.forbes.com/topics/artificial-intelligence/", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher
-    )
-    task_research_usnews = Task(
-        description=research_task_description_tmplt("https://www.usnews.com/topics/subjects/artificial-intelligence", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher
-    )
-    task_research_huggingface_blog = Task(
-        description=research_task_description_tmplt("https://huggingface.co/blog", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher
-    )
-    task_research_medium_dot_com = Task(
-        description=research_task_description_tmplt("https://medium.com/tag/artificial-intelligence", current_date),
-        expected_output=tasks_yaml['research_task']["expected_output"],
-        output_pydantic=NewsResults,
-        agent=researcher
-    )
+    # task_research_techcrunch = Task(
+    #     description=research_task_description_tmplt("https://techcrunch.com/category/artificial-intelligence/", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher,
+    # )
+    # task_research_nbcnews = Task(
+    #     description=research_task_description_tmplt("https://www.nbcnews.com/artificial-intelligence", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher,
+    # )
+    # task_research_mit_dot_edu = Task(
+    #     description=research_task_description_tmplt("https://news.mit.edu/topic/artificial-intelligence2", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher
+    # )
+    # task_research_the_guardian = Task(
+    #     description=research_task_description_tmplt("https://www.theguardian.com/technology/artificialintelligenceai", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher
+    # )
+    # task_research_forbes = Task(
+    #     description=research_task_description_tmplt("https://www.forbes.com/topics/artificial-intelligence/", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher
+    # )
+    # task_research_usnews = Task(
+    #     description=research_task_description_tmplt("https://www.usnews.com/topics/subjects/artificial-intelligence", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher
+    # )
+    # task_research_huggingface_blog = Task(
+    #     description=research_task_description_tmplt("https://huggingface.co/blog", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher
+    # )
+    # task_research_medium_dot_com = Task(
+    #     description=research_task_description_tmplt("https://medium.com/tag/artificial-intelligence", current_date),
+    #     expected_output=tasks_yaml['research_task']["expected_output"],
+    #     output_pydantic=NewsResults,
+    #     agent=researcher
+    # )
 
     # List of research tasks to be performed in parallel
     tasks = [
-        task_research_ainews,
-        task_research_techcrunch,
-        task_research_nbcnews,
-        task_research_mit_dot_edu,
-        task_research_the_guardian,
-        task_research_forbes,
-        task_research_usnews,
-        task_research_huggingface_blog,
-        task_research_medium_dot_com
+        task_research_attendees,
     ]
 
-    research_results = [] # Execute tasks in parallel
+    attendees = [] # Execute tasks in parallel
     with ThreadPoolExecutor(max_workers=5) as executor:  # You can adjust the max_workers value
         # Submit all tasks to the executor
         futures = {executor.submit(execute_task_async, task): task for task in tasks}
@@ -144,13 +137,13 @@ def main():
         for future in as_completed(futures):
             result = future.result()
             if result:
-                research_results.extend(result.pydantic.results)
+                attendees.extend(result.pydantic.people)
 
     task_final_analysis = Task(
-        description=analyst_task_description_tmplt(current_date, research_results),
+        description=analyst_task_description_tmplt(current_date, attendees),
         expected_output=tasks_yaml['final_analysis']["expected_output"],
         agent=analyst,
-        output_pydantic=NewsResults,
+        output_pydantic=FinalOutput,
         # output_file="report.json" # Uncomment this line to save the output to a file for testing
     )
 
@@ -163,7 +156,7 @@ def main():
     for email in email_list:
         if bool(email) and is_valid_email(email):
             print("Sending email to: " + email)
-            send_email_ses("noreply@kalygo.io", [email.strip()], "Research Agents Update", format_news_for_email(final_analysis_output.pydantic.results, current_datetime))
+            send_email_ses("noreply@kalygo.io", [email.strip()], "Research Agents Update", format_for_email(final_analysis_output.pydantic, current_datetime))
 
 if __name__ == "__main__":
     try:
